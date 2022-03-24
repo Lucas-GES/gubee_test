@@ -3,63 +3,33 @@ package proxies;
 import annotations.Transaction;
 
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Optional;
 
 public class DynamicProxy implements InvocationHandler {
 
     private Object target;
-    private Class<?> targetClass;
 
     public DynamicProxy(Object targetObj){
         this.target = targetObj;
-        this.targetClass = targetObj.getClass();
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Method targetMethod = getOverridenMethod(method);
-
-        return getTransactionMethod(targetMethod)
-                .map(annotation -> handler(method, args, annotation))
-                .orElseGet(() -> invokeNotChecked(method, args));
-
-
-    }
-
-    private Object handler(Method method, Object[] args, Transaction annotation){
         Object result;
+        Method method1 = target.getClass().getMethod(method.getName(), method.getParameterTypes());
 
-        System.out.println(String.format("Iniciando execução do método %s" , method.getName()));
-        try{
-            result = invokeNotChecked(method, args);
-        } catch (RuntimeException e) {
-            System.out.println(String.format("Finalizando execução do método %s com erro %s" , method.getName(), e));
-            throw e;
+        if(method1.isAnnotationPresent(Transaction.class)) {
+            System.out.println(String.format("Iniciando execução do método %s", method.getName()));
+            try {
+                result = method.invoke(target, args);
+            } catch (RuntimeException e) {
+                System.out.println(String.format("Finalizando execução do método %s com erro %s", method.getName(), e));
+                throw e;
+            }
+            System.out.println(String.format("Finalizando execução do método %s com sucesso", method.getName()));
+            return result;
         }
-        System.out.println(String.format("Finalizando execução do método %s com sucesso" , method.getName()));
-        return result;
+        return method.invoke(target, args);
+
     }
-
-    private Object invokeNotChecked(Method method, Object[] args) throws RuntimeException {
-        try{
-            return method.invoke(target, args);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(String.format("Finalizando execução do método %s com erro %s" , method.getName(), e));
-        }
-    }
-
-    private Optional<Transaction> getTransactionMethod(Method method){
-        return Optional.ofNullable(method.getDeclaredAnnotation(Transaction.class));
-    }
-
-    private Method getOverridenMethod(Method method) throws NoSuchMethodException {
-        return targetClass
-                .getDeclaredMethod(method.getName(),
-                        method.getParameterTypes());
-    }
-
-
-
 }
