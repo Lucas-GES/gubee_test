@@ -1,18 +1,28 @@
 package application;;
 import entity.Account;
-import proxies.Factory;
-import service.AccountInterface;
+import proxies.DynamicProxy;
+import service.AccountService;
+import service.ServiceAccount;
+
+import java.lang.reflect.Proxy;
 
 public class Program {
 
     public static void main(String args[]){
-        Factory factory = new Factory(Program.class.getPackage());
+
         Account acc = new Account("Poupança", "João", 500.0);
 
-        AccountInterface accountInterface = factory.getBean(AccountInterface.class);
-        System.out.println(accountInterface.deposit(100.0));
+        AccountService as = new AccountService();
 
-        System.out.println();
+        ClassLoader cl = Program.class.getClassLoader();
+
+        DynamicProxy dynamicProxy = new DynamicProxy(as);
+
+        ServiceAccount proxiedService = (ServiceAccount) Proxy
+                .newProxyInstance(cl, as.getClass().getInterfaces(),
+                        Proxy.getInvocationHandler(as));
+
+        proxiedService.deposit(100.0);
     }
 
 

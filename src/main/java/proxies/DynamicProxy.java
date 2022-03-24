@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public class DynamicProxy implements InvocationHandler {
 
-    private final Object target;
-    private final Class<?> targetClass;
+    private Object target;
+    private Class<?> targetClass;
 
     public DynamicProxy(Object targetObj){
         this.target = targetObj;
@@ -19,19 +19,21 @@ public class DynamicProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Method targetMethod = getOverride(method);
+        Method targetMethod = getOverridenMethod(method);
 
-        return getTransaction(targetMethod)
-                .map(annotation -> handlerMethod(method, args))
-                .orElseGet(() -> notCheckedInvoke(method, args));
+        return getTransactionMethod(targetMethod)
+                .map(annotation -> handler(method, args, annotation))
+                .orElseGet(() -> invokeNotChecked(method, args));
+
 
     }
 
-    private Object handlerMethod(Method method, Object[] args){
+    private Object handler(Method method, Object[] args, Transaction annotation){
         Object result;
+
         System.out.println(String.format("Iniciando execução do método %s" , method.getName()));
         try{
-            result = notCheckedInvoke(method, args);
+            result = invokeNotChecked(method, args);
         } catch (RuntimeException e) {
             System.out.println(String.format("Finalizando execução do método %s com erro %s" , method.getName(), e));
             throw e;
@@ -40,20 +42,24 @@ public class DynamicProxy implements InvocationHandler {
         return result;
     }
 
-    private Optional<Transaction> getTransaction(Method method){
-        return Optional.ofNullable(method.getDeclaredAnnotation(Transaction.class));
-    }
-
-    private Object notCheckedInvoke(Method method, Object[] args){
+    private Object invokeNotChecked(Method method, Object[] args) throws RuntimeException {
         try{
             return method.invoke(target, args);
-        } catch (InvocationTargetException | IllegalAccessException  e) {
-           throw new RuntimeException(e.getMessage());
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(String.format("Finalizando execução do método %s com erro %s" , method.getName(), e));
         }
     }
 
-    private Method getOverride(Method method) throws NoSuchMethodException {
-        return targetClass.getDeclaredMethod(method.getName(), method.getParameterTypes());
+    private Optional<Transaction> getTransactionMethod(Method method){
+        return Optional.ofNullable(method.getDeclaredAnnotation(Transaction.class));
     }
+
+    private Method getOverridenMethod(Method method) throws NoSuchMethodException {
+        return targetClass
+                .getDeclaredMethod(method.getName(),
+                        method.getParameterTypes());
+    }
+
+
 
 }
