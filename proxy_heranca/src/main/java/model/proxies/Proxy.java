@@ -4,7 +4,6 @@ import model.service.AccountService;
 import model.service.ServiceAccount;
 
 import java.lang.reflect.Method;
-import java.util.List;
 
 public class Proxy implements ServiceAccount {
 
@@ -17,9 +16,9 @@ public class Proxy implements ServiceAccount {
     }
 
     public <T>boolean isAnnotationMethod(String methodName){
-        List<Method> methods = List.of(targetClass.getDeclaredMethods());
+        Method[] methods = targetClass.getMethods();
         for(Method method : methods){
-            if(method.getName() == methodName){
+            if(method.getName().equals(methodName)){
                 if(method.isAnnotationPresent(Transaction.class)){
                     return true;
                 }

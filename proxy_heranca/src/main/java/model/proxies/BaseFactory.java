@@ -1,10 +1,6 @@
 package model.proxies;
 
-public abstract class BaseFactory {
+public interface BaseFactory {
 
-    public void factory(){
-        createProxy();
-    }
-
-    public abstract Proxy createProxy();
+    public Object createProxy();
 }

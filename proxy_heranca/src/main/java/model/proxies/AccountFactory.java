@@ -1,9 +1,8 @@
 package model.proxies;
 
-public class AccountFactory extends BaseFactory{
-
+public class AccountFactory implements BaseFactory{
     @Override
-    public Proxy createProxy() {
+    public Object createProxy() {
         return new Proxy();
     }
 }
