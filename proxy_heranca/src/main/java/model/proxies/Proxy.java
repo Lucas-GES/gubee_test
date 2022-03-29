@@ -16,11 +16,13 @@ public class Proxy implements ServiceAccount {
     }
 
     public <T>boolean isAnnotationMethod(String methodName){
-        Method[] methods = targetClass.getMethods();
-        for(Method method : methods){
+        try {
+            Method method = targetClass.getDeclaredMethod(methodName, double.class);
             if(method.getName().equals(methodName) && method.isAnnotationPresent(Transaction.class)){
                 return true;
             }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
         }
         return false;
     }
