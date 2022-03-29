@@ -2,9 +2,6 @@ package application;;
 import model.entities.Account;
 import model.proxies.AccountFactory;
 import model.proxies.BaseFactory;
-import model.proxies.Factory;
-import model.proxies.Proxy;
-import model.service.AccountService;
 import model.service.ServiceAccount;
 
 
@@ -22,14 +19,9 @@ public class Program {
 //        sc.withdraw(100.0);
 //
 //        System.out.println();
-
-        Factory factory;
-        BaseFactory baseFactory;
-
-        baseFactory = new AccountFactory();
-        sc = (ServiceAccount) new Factory(baseFactory).instantiate();
-        sc.deposit(100.0);
-
+          BaseFactory factory = new AccountFactory();
+          sc = factory.createService();
+          sc.deposit(100.0);
 
     }
 

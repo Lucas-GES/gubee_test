@@ -1,6 +1,6 @@
 package model.proxies;
+import model.service.ServiceAccount;
 
 public interface BaseFactory {
-
-    public Object createProxy();
+    ServiceAccount createService();
 }

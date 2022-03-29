@@ -10,18 +10,16 @@ public class Proxy implements ServiceAccount {
     private ServiceAccount accountService;
     private Class targetClass;
 
-    public Proxy(){
-        this.accountService = new AccountService();
+    public Proxy(ServiceAccount serviceAccount){
+        this.accountService = serviceAccount;
         targetClass = AccountService.class;
     }
 
     public <T>boolean isAnnotationMethod(String methodName){
         Method[] methods = targetClass.getMethods();
         for(Method method : methods){
-            if(method.getName().equals(methodName)){
-                if(method.isAnnotationPresent(Transaction.class)){
-                    return true;
-                }
+            if(method.getName().equals(methodName) && method.isAnnotationPresent(Transaction.class)){
+                return true;
             }
         }
         return false;
