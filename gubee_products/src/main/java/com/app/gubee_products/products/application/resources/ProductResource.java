@@ -20,12 +20,12 @@ public class ProductResource implements ProductRepository {
     }
 
     private Product instantiateProduct(ResultSet rs) throws SQLException {
-        Product product = new Product();
-        product.setId(rs.getInt("id"));
-        product.setName(rs.getString("name"));
-        product.setProductDescription(rs.getString("description"));
-        product.setMarket(rs.getObject("name", Market.class));
-        Collections.singletonList(rs.getString("technologies.name"));
+        Product product = new Product(
+        rs.getInt("id"),
+        rs.getString("name"),
+        rs.getString("description"),
+        rs.getString("name"),
+        Collections.singletonList(rs.getString("technologies.name")));
         return product;
     }
 

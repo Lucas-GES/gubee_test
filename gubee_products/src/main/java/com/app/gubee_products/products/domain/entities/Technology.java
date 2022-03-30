@@ -2,12 +2,12 @@ package com.app.gubee_products.products.domain.entities;
 
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "technologies")
 public class Technology {
-
-    @Id
-    private Integer id;
 
     @Column
     private String name;
@@ -15,17 +15,8 @@ public class Technology {
     public Technology() {
     }
 
-    public Technology(Integer id, String name) {
-        this.id = id;
+    public Technology(String name) {
         this.name = name;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {

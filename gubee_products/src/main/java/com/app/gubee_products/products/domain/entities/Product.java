@@ -1,43 +1,41 @@
 package com.app.gubee_products.products.domain.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "product")
 public class Product {
 
     @Id
     private Integer id;
-
-    @Column
     private String name;
-
-    @Column
     private String productDescription;
 
-    @Column
+    @ManyToMany
+    @JoinColumn(name = "id")
     private Market market;
 
-    @Column
-    private List<Technology> technology;
+    @ManyToMany
+    @JoinColumn(name = "id")
+    private List<Technology> technology = new ArrayList<>();
 
     public Product() {
     }
 
-    public Product(Integer id, String name, String productDescription, Market market, List<Technology> technology) {
+    public Product(Integer id, String name, String productDescription, String market, List<String> technology) {
         this.id = id;
         this.name = name;
         this.productDescription = productDescription;
-        this.market = market;
+        this.market = new Market(market);
         this.insertTechnology(technology);
     }
 
-    public void insertTechnology(List<Technology> technology){
-        for(Technology t : technology){
-            this.technology.add(t);
+    public void insertTechnology(List<String> technology){
+        for(String t : technology){
+            this.technology.add(new Technology(t));
         }
     }
 
