@@ -24,6 +24,9 @@ public class Product {
     @Column
     private List<Technology> technology;
 
+    public Product() {
+    }
+
     public Product(Integer id, String name, String productDescription, Market market, List<Technology> technology) {
         this.id = id;
         this.name = name;

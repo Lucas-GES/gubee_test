@@ -1,9 +1,14 @@
 package com.app.gubee_products.products.application.services;
 
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
+import com.app.gubee_products.products.application.repositories.ProductRepository;
+import com.app.gubee_products.products.domain.entities.Product;
 
-@ApplicationPath("/api")
-public class ProductList extends Application {
+import java.util.List;
 
+public class ProductList {
+    private ProductRepository repository;
+
+    public List<Product> findAll(){
+        return  repository.findAll();
+    }
 }
