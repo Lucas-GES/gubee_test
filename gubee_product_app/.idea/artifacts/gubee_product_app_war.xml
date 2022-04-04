@@ -7,7 +7,7 @@
         <packaging>war</packaging>
       </options>
     </properties>
-    <root id="archive" name="rest.war">
+    <root id="archive" name="gubee_product_app-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="gubee_product_app:war exploded" />
     </root>
   </artifact>

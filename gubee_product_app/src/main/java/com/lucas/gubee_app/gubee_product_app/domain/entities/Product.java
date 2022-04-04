@@ -1,29 +1,19 @@
 package com.lucas.gubee_app.gubee_product_app.domain.entities;
 
 
-import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 public class Product {
 
-    @Id
     private Integer id;
 
-    @Column
     private String name;
 
-    @Column
     private String productDescription;
 
-    @Column
-    @ManyToOne
     private Market market;
 
-    @Column
-    @ManyToMany
     private List<Technology> technology = new ArrayList<>();
 
     public Product() {

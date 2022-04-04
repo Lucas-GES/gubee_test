@@ -1,11 +1,8 @@
 package com.lucas.gubee_app.gubee_product_app.application.resources;
 
 import com.lucas.gubee_app.gubee_product_app.application.repositories.ProductRepository;
-import com.lucas.gubee_app.gubee_product_app.db.DB;
 import com.lucas.gubee_app.gubee_product_app.db.DbException;
 import com.lucas.gubee_app.gubee_product_app.domain.entities.Product;
-import jakarta.ejb.Stateless;
-import jakarta.persistence.PersistenceContext;
 
 
 import java.sql.*;
@@ -13,7 +10,9 @@ import java.util.*;
 
 public class ProductResource implements ProductRepository {
 
-    private Connection conn = DB.getConnection();
+    private Connection conn;
+
+    public ProductResource(Connection conn){this.conn = conn;}
 
     private Product instantiateProduct(ResultSet rs) throws SQLException {
         Product product = new Product(
