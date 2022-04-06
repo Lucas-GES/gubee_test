@@ -1,7 +1,5 @@
 package com.product.entities;
 
-
-
 public class Technology {
 
     private Integer id;
@@ -13,6 +11,10 @@ public class Technology {
 
     public Technology(String name) {
         this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getName() {
