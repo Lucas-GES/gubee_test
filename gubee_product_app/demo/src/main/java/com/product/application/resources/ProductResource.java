@@ -4,7 +4,6 @@ package com.product.application.resources;
 import com.product.application.repositories.ProductRepository;
 import com.product.db.DbException;
 import com.product.entities.Product;
-import com.product.entities.Technology;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
