@@ -28,9 +28,10 @@ public class ProductController {
     }
 
     @GET
-    @Path("technology/{id}")
-    public Response filterMarket(@PathParam("id") List<Integer> id){
-        return Response.ok(productRepository.filterTechnologies(id)).build();
+    @Path("technology")
+    public Response filterTechnology(@QueryParam("arr") String name){
+        List<String> technologies = List.of(name.split(","));
+        return Response.ok(productRepository.filterTechnologies(technologies)).build();
     }
 
 }

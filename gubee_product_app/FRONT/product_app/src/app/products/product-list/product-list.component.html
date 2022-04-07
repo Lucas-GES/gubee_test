@@ -1,0 +1,90 @@
+<div class="container">
+    <div class="card top">
+        <div class="card-header">
+            Produtos
+        </div>
+        <div class="card-body">
+            <p>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse"
+                    aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Filtro</button>
+            </p>
+            <div class="row">
+                <div class="col">
+                    <div class="collapse multi-collapse" id="multiCollapseExample1">
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            Market
+                        </button>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="collapse multi-collapse" id="multiCollapseExample2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Java</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox2">Kotlin</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox3">C#</label>
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="Tecnologia">
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+
+    <div class="card top">
+
+        <ul class="nav nav-pills nav-fill ">
+            <li class="nav-item">
+                <span>Nome</span>
+            </li>
+            <li class="nav-item">
+                <span>Mercado Alvo</span>
+            </li>
+            <li class="nav-item">
+                <span>Descrição</span>
+            </li>
+            <li class="nav-item">
+                <span>Tecnologia</span>
+            </li>
+        </ul>
+        
+        <ul class="nav nav-pills nav-fill list" *ngFor="let product of products$ | async">
+            <li class="nav-item">
+                <span>{{ product.name }}</span>
+            </li>
+            <li class="nav-item">
+                <span>{{ product.market.name }}</span>
+            </li>
+            <li class="nav-item">
+                <span>{{ product.productDescription }}</span>
+            </li>
+            <li class="nav-item">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      Action
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="#">Separated link</a></li>
+                    </ul>
+                  </div>
+            </li>
+        </ul>
+
+    </div>
+
+</div>
+
+

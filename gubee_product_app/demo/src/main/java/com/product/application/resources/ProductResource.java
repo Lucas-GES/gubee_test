@@ -64,18 +64,17 @@ public class ProductResource implements ProductRepository {
     }
 
     @Override
-    public List<Product> filterTechnologies(List<Integer> id) {
-        System.out.println(id);
+    public List<Product> filterTechnologies(List<String> names) {
         List<Product> list = new ArrayList<>();
-        for(int ids : id) {
+        for(String name : names) {
             String query = String.format("""
                     SELECT product.id,product.name, product.description, market.name, technologies.name
                     FROM product
                     join market on product.marketId = market.id                        
                     join product_tech on product_tech.product_id = product.id
                     join technologies on technologies.id = product_tech.tech_id
-                    WHERE product_tech.tech_id = %d                            
-                    """, ids);
+                    WHERE technologies.name = %s                            
+                    """, name);
 
             for(Product p :  prepareStatement(query)){
                 list.add(p);
