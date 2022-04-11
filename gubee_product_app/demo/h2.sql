@@ -54,7 +54,7 @@ insert into product(id, name, description, marketId) values (null, 'Bis2bis', 'I
 insert into product(id, name, description, marketId) values (null, 'Mercado Livre', 'Integração com Mercado Livre', 3);
 
 insert into product(id, name, description, marketId) values (null, 'Pernambucanas', 'Integração com Pernambucanas', 3);
-;
+
 
 insert into product_tech(product_id, tech_id) values (1, 1);
 insert into product_tech(product_id, tech_id) values (2, 1);
@@ -68,3 +68,6 @@ insert into product_tech(product_id, tech_id) values (6, 1);
 insert into product_tech(product_id, tech_id) values (6, 3);
 insert into product_tech(product_id, tech_id) values (7, 3);
 insert into product_tech(product_id, tech_id) values (7, 2);
+insert into product_tech(product_id, tech_id) values (8, 1);
+insert into product_tech(product_id, tech_id) values (8, 2);
+insert into product_tech(product_id, tech_id) values (8, 3);
