@@ -2,6 +2,7 @@ package com.product.application.resources;
 
 
 import com.product.application.repositories.ProductRepository;
+import com.product.application.services.ProductService;
 import com.product.db.DbException;
 import com.product.entities.Product;
 
@@ -15,18 +16,9 @@ import java.util.stream.Collectors;
 public class ProductResource implements ProductRepository {
 
     private Connection conn;
+    ProductService productService = new ProductService();
 
     public ProductResource(Connection conn){this.conn = conn;}
-
-    private Product instantiateProduct(ResultSet rs) throws SQLException {
-        Product product = new Product(
-        rs.getInt("id"),
-        rs.getString("name"),
-        rs.getString("description"),
-        rs.getString("market.name"),
-        Collections.singletonList(rs.getString("technologies.name")));
-        return product;
-    }
 
     private List<Product> prepareStatement(String query){
         try(PreparedStatement st = conn.prepareStatement(query)){
@@ -34,11 +26,9 @@ public class ProductResource implements ProductRepository {
                 List<Product> list = new ArrayList<>();
                 Map<Integer, Product> map = new HashMap<>();
 
-                while (rs.next()){
-                    Product product;
-                    product = instantiateProduct(rs);
-                    list.add(product);
-                }
+
+                list.addAll(productService.instantiateProduct(rs));
+
                 return list;
             }
         }catch (SQLException e){
@@ -51,9 +41,9 @@ public class ProductResource implements ProductRepository {
         String query = ("""
                         SELECT product.id,product.name, product.description, market.name, technologies.name
                         FROM product
-                        join market on product.marketId = market.id
-                        join product_tech on product_tech.product_id = product.id
-                        join technologies on product_tech.tech_id = technologies.id""");
+                        inner join market on product.marketId = market.id
+                        left join product_tech on product_tech.product_id = product.id
+                        left join technologies on product_tech.tech_id = technologies.id""");
 
         return prepareStatement(query);
     }
@@ -63,18 +53,21 @@ public class ProductResource implements ProductRepository {
         return findAll().stream().filter(p -> p.getMarket().getName().equals(name)).collect(Collectors.toList());
     }
 
+
     @Override
     public List<Product> filterTechnologies(List<String> names) {
         List<Product> list = new ArrayList<>();
-        for(String name : names) {
+        List<Integer> integerList = new ArrayList<>();
+        for(String s : names) integerList.add(Integer.valueOf(s));
+        for(Integer i : integerList) {
             String query = String.format("""
                     SELECT product.id,product.name, product.description, market.name, technologies.name
                     FROM product
                     join market on product.marketId = market.id                        
                     join product_tech on product_tech.product_id = product.id
                     join technologies on technologies.id = product_tech.tech_id
-                    WHERE technologies.name = %s                            
-                    """, name);
+                    WHERE technologies.id = %d                            
+                    """, i);
 
             for(Product p :  prepareStatement(query)){
                 list.add(p);

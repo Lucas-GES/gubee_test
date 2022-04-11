@@ -1,7 +1,7 @@
 package com.product.application.controller;
 
 import com.product.application.repositories.ProductRepository;
-import com.product.application.services.ProductList;
+import com.product.application.services.ProductFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,7 +12,7 @@ import java.util.List;
 @Path("/product")
 public class ProductController {
 
-    private ProductRepository productRepository = ProductList.createProduct();
+    private ProductRepository productRepository = ProductFactory.createProduct();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

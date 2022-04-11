@@ -1,4 +1,3 @@
-import { Market } from "./market";
 
 export interface Product{
     id: number;

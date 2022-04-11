@@ -10,6 +10,6 @@ import { Product } from "./product";
 export class Products2Service extends GetService<Product>{
 
     constructor(protected override http: HttpClient){
-        super(http, `${environment.API}product`)
+        super(http, `${environment.API}product/`)
     }
 }

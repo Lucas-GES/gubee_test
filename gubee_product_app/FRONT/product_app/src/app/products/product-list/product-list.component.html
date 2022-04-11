@@ -10,81 +10,86 @@
             </p>
             <div class="row">
                 <div class="col">
+                    
                     <div class="collapse multi-collapse" id="multiCollapseExample1">
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            Market
-                        </button>
+                        <h3>Market</h3>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" (click)="filterMarket('Moveis')">
+                              Moveis
+                            </button>
+                            <br>
+                            <button type="button" class="btn btn-primary" (click)="filterMarket('Eletrodomesticos')">
+                              Eletrodomesticos
+                            </button>
+                            <br>
+                            <button type="button" class="btn btn-primary" (click)="filterMarket('Eletronicos')">
+                              Eletronicos
+                            </button>                            
+                          </div>                          
                     </div>
                 </div>
                 <div class="col">
                     <div class="collapse multi-collapse" id="multiCollapseExample2">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                            <label class="form-check-label" for="inlineCheckbox1">Java</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                            <label class="form-check-label" for="inlineCheckbox2">Kotlin</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                            <label class="form-check-label" for="inlineCheckbox3">C#</label>
-                        </div>
-                        <input class="btn btn-primary" type="submit" value="Tecnologia">
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                              Tecnologia
+                            </button>
+                            <ul class="dropdown-menu">
+                              
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" (change)="techChecked('1')">
+                                    <label class="form-check-label" >Java</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="checkbox" (change)="techChecked('2')">
+                                  <label class="form-check-label" >Kotlin</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" (change)="techChecked('3')">
+                                <label class="form-check-label" >C#</label>
+                            </div>
+                                                               
+                            </ul>
+                          </div> 
+                          <input class="btn btn-primary" type="submit" (click)="filterTech()">
                     </div>
                 </div>
             </div>
 
             
         </div>
-    </div>
 
-    <div class="card top">
-
-        <ul class="nav nav-pills nav-fill ">
-            <li class="nav-item">
-                <span>Nome</span>
-            </li>
-            <li class="nav-item">
-                <span>Mercado Alvo</span>
-            </li>
-            <li class="nav-item">
-                <span>Descrição</span>
-            </li>
-            <li class="nav-item">
-                <span>Tecnologia</span>
-            </li>
-        </ul>
-        
-        <ul class="nav nav-pills nav-fill list" *ngFor="let product of products$ | async">
-            <li class="nav-item">
-                <span>{{ product.name }}</span>
-            </li>
-            <li class="nav-item">
-                <span>{{ product.market.name }}</span>
-            </li>
-            <li class="nav-item">
-                <span>{{ product.productDescription }}</span>
-            </li>
-            <li class="nav-item">
-                <div class="btn-group">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Mercado Alvo</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Tecnologia</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let product of products$ | async">
+              <tr>
+                <th scope="row">{{ product.id }}</th>
+                <td>{{ product.name }}</td>
+                <td>{{ product.market.name }}</td>
+                <td>{{ product.productDescription }}</td>
+                <td><div class="btn-group">
                     <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                       Action
                     </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="#">Separated link</a></li>
+                    <ul class="dropdown-menu" *ngFor="let tech of product.technology">
+                      <li><span>{{ tech.name }}</span></li>            
                     </ul>
                   </div>
-            </li>
-        </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
     </div>
 
 </div>
-
-

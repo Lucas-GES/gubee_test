@@ -16,7 +16,7 @@ public class Product {
 
     private List<Technology> technology = new ArrayList<>();
 
-    public Product() {
+    public Product(){
     }
 
     public Product(Integer id, String name, String productDescription, String market, List<String> technology) {
@@ -30,6 +30,12 @@ public class Product {
     public void insertTechnology(List<String> technology){
         for(String t : technology){
             this.technology.add(new Technology(t));
+        }
+    }
+
+    public void insertTechByTech(List<Technology> technologies){
+        for(Technology tech: technology){
+            this.technology.add(new Technology(tech.getName()));
         }
     }
 

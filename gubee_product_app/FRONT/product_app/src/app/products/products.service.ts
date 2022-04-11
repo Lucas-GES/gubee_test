@@ -19,4 +19,19 @@ export class ProductsService{
             tap(console.log)
         );
     }
+
+    marketFilter(filter: string){
+        return this.http.get<Product[]>(`${this.API}/market/${filter}`)
+        .pipe(
+            tap(console.log)
+        );
+    }
+
+    techFilter(filter: any[]){
+        let tech: string = '';
+        for(let i = 0; i< filter.length; i++){
+            tech += filter[i] + ',';
+        }
+        return this.http.get<Product[]>(`${this.API}/technology?arr=${filter}`)
+    }
 }

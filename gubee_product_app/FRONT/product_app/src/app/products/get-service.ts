@@ -7,4 +7,15 @@ export class GetService<T> {
     listAllProducts(){
         return this.http.get<T[]>(this.API_URL)
     }
+    marketFilter(filter: string){
+        return this.http.get<T[]>(`${this.API_URL}market/${filter}`)
+    }
+
+    techFilter(filter: any[]){
+        let tech: string = '';
+        for(let i = 0; i< filter.length; i++){
+            tech += filter[i] + ',';
+        }
+        return this.http.get<T[]>(`${this.API_URL}technology?arr=${filter}`)
+    }
 }
